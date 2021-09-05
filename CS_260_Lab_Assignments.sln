@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\..\..\Downloads\Lab1-3\Lab1-3\License.txt = ..\..\..\Downloads\Lab1-3\Lab1-3\License.txt
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lab_2.1_UpToSpeed_02", "Lab_2.1_UpToSpeed_02\Lab_2.1_UpToSpeed_02.vcxproj", "{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -29,6 +31,14 @@ Global
 		{C0391A1F-CC29-455C-B809-8DC6CC422121}.Release|x64.Build.0 = Release|x64
 		{C0391A1F-CC29-455C-B809-8DC6CC422121}.Release|x86.ActiveCfg = Release|Win32
 		{C0391A1F-CC29-455C-B809-8DC6CC422121}.Release|x86.Build.0 = Release|Win32
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Debug|x64.ActiveCfg = Debug|x64
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Debug|x64.Build.0 = Debug|x64
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Debug|x86.ActiveCfg = Debug|Win32
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Debug|x86.Build.0 = Debug|Win32
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Release|x64.ActiveCfg = Release|x64
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Release|x64.Build.0 = Release|x64
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Release|x86.ActiveCfg = Release|Win32
+		{97EE48BC-CBD5-4D03-AA84-8110DC55BD6F}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
