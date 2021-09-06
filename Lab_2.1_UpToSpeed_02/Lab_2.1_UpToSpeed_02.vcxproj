@@ -140,7 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="CSVparser.cpp" />
-    <ClCompile Include="Driver.cpp" />
+    <ClCompile Include="Test.cpp" />
     <ClCompile Include="Lab2-1.cpp" />
   </ItemGroup>
   <ItemGroup>
