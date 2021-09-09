@@ -1,7 +1,8 @@
 //============================================================================
 // Name        : Lab2-2.cpp
-// Author      : Your Name
-// Version     : 1.0
+// Course      : CS260-T1002 21EW1
+// Author      : Lawrence Artl
+// Version     : 1.1
 // Copyright   : Copyright © 2017 SNHU COCE
 // Description : Lab 2-2 Up to Speed in C++, Part 2
 //============================================================================
@@ -83,6 +84,10 @@ Bid getBid() {
 
     return bid;
 }
+
+// Custom method to take a row object, converted to a string, then 
+// delimited by spaces to individual properties, to be stored
+// in a 'Bid' object
 
 Bid MakeABid(string row) {
     Bid newBid;
@@ -190,7 +195,6 @@ vector<Bid> loadBids(string csvPath) {
         /*cout << file[i][4] << endl;
         cout << strToDouble(file[i][4], '$') << endl;*/
         winBid = file[i][4];
-        cout << winBid << endl;
         amount = strToDouble(winBid, '$');
 
         newBid.title = article;
@@ -220,13 +224,10 @@ vector<Bid> loadBids(string csvPath) {
  * @param ch The character to strip out
  */
 double strToDouble(string str, char ch) {
-    //cout << str << endl;
+    //this handles numbers above 999.99 strangely
+    //these numbers are converted to '0' when made into doubles
     str.erase(remove(str.begin(), str.end(), ','));
-    //cout << str << endl;
     str.erase(remove(str.begin(), str.end(), ch));
-    //cout << str << endl;
-    //str.erase(remove(str.begin(), str.end(), ch), str.end     //original function
-    //cout << atof(str.c_str()) << endl;
     return atof(str.c_str());
     
 }
@@ -285,12 +286,20 @@ int main(int argc, char* argv[]) {
             break;
         case 3:
             // FIXME (6): Loop and display the bids read
+            if (ListOfBids.size() == 0) {
+                cout << "Please select '2' to Load Bids first!" << endl;
+                break;
+            }
+            
             for (int i = 0; i < ListOfBids.size(); ++i) {
                 displayBid(ListOfBids.at(i));
             }
             cout << endl;
 
             break;
+
+        // custom case for testing 'stringToDouble' method
+
         case 4:
             string num;
             double newNum;
