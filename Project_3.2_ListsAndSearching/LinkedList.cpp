@@ -43,8 +43,15 @@ struct Bid {
 class LinkedList {
 
 private:
-    // FIXME (1): Internal structure for list entries, housekeeping variables
+    class Node {
+    public:
+        Bid _bid;
+        Node* _next;
+        Node* _prev;
+    };
 
+    Node* _head;
+    
 public:
     LinkedList();
     virtual ~LinkedList();
@@ -60,6 +67,8 @@ public:
  * Default constructor
  */
 LinkedList::LinkedList() {
+    _head = NULL;           // give the list a 'head' to reference for the front of the list
+    
     // FIXME (2): Initialize housekeeping variables
 }
 
@@ -73,6 +82,28 @@ LinkedList::~LinkedList() {
  * Append a new bid to the end of the list
  */
 void LinkedList::Append(Bid bid) {
+    
+    Node* new_node = new Node();        // allocate a new Node
+    Node* last = this->_head;           // copy 'head' to new Node called 'last'
+
+    new_node->_bid = bid;               // add 'bid' to the new Node
+    new_node->_next = NULL;             // set the 'next' pointer to NULL (this node will be the last in the list)
+
+    if (this->_head == NULL) {          // if the 'head' is empty, ie list is empty
+        new_node->_prev = NULL;         // set the new Node's 'prev' pointer to NULL
+        this->_head = new_node;         // make the new Node the head
+        return;                         // done now, return
+    }
+
+    while (last->_next != NULL) {       // otherwise, loop through the list
+        last = last->_next;             // start at the head ('last' Node) and keep checking for a
+    }                                   // NULL value for the 'next' pointer at each Node
+
+    last->_next = new_node;             // once the last Node is found, set its 'next' point to the new Node
+    new_node->_prev = last;             // set the new Node's prev pointer to the Node we just found
+
+    return;                             // done, return
+
     // FIXME (3): Implement append logic
 }
 
@@ -80,6 +111,15 @@ void LinkedList::Append(Bid bid) {
  * Prepend a new bid to the start of the list
  */
 void LinkedList::Prepend(Bid bid) {
+    Node* new_node = new Node();            // allocate a new Node
+    new_node->_bid = bid;                   // add 'bid' to the new Node
+    new_node->_next = this->_head;          // set the 'next' pointer to point to the current head of the list
+    new_node->_prev = NULL;                 // set the 'prev' of the new Node to 'NULL' since it's at the front of the list
+    if (this->_head != NULL) {              // if the current head is not empty
+        this->_head->_prev = new_node;      // set it's prev pointer to point to the new Node, which is the new head
+    }
+    this->_head = new_node;                 // set the head of the list as the new node
+
     // FIXME (4): Implement prepend logic
 }
 
@@ -88,6 +128,29 @@ void LinkedList::Prepend(Bid bid) {
  */
 void LinkedList::PrintList() {
     // FIXME (5): Implement print logic
+
+    Node* print = new Node();        // create a new Node called 'print'
+    Bid bid;                         // create empty bid
+    int bidCount = 0;                // for displaying a number next to each bid
+    print = this->_head;             // add 'head' into 'last'
+    if (print == NULL) {             // if 'head' is NULL, list is empty, return
+        cout << "There are no bids to display / list is empty." << endl;
+        return;
+    }
+
+
+    while (print->_next != NULL) {          // otherwise, loop through the list
+        bid = print->_bid;                  // set 'bid' equal the bid in node 'print'
+        print = print->_next;               // increment 'print' to the next node
+        bidCount++;                         // increment bid count to display a number in front of each bid
+        cout << bidCount << ": " << bid.bidId << ": " << bid.title << " | " << bid.amount       // display the bid
+            << " | " << bid.fund << endl;
+        
+    }
+    bidCount++;
+    bid = print->_bid;
+    cout << bidCount << ": " << bid.bidId << ": " << bid.title << " | " << bid.amount       // display the very last bid
+        << " | " << bid.fund << endl;
 }
 
 /**
@@ -97,6 +160,8 @@ void LinkedList::PrintList() {
  */
 void LinkedList::Remove(string bidId) {
     // FIXME (6): Implement remove logic
+
+
 }
 
 /**
@@ -106,12 +171,49 @@ void LinkedList::Remove(string bidId) {
  */
 Bid LinkedList::Search(string bidId) {
     // FIXME (7): Implement search logic
+
+    Node* search = new Node();              // create new Node called 'search'
+    Bid bid;                                 // create new empty Bid
+    search = this->_head;                    // set 'search' equal to 'head' of list
+    if (search == NULL) {                       // list is empty
+        return bid;                             // return empty bid
+    }
+    if (search->_bid.bidId == bidId) {      // head contains search
+        bid = search->_bid;         
+        return bid;                 // return head bid
+    }
+    
+    while (search->_bid.bidId != bidId) {                               // while the bid ID of search is not the same as the passed bidID
+        search = search->_next;                                          // set 'search' to the next Node
+        if (search->_next == NULL && search->_bid.bidId != bidId) {     // if the next Node is NULL AND the bidId's don't match
+            return bid;                                                  // return an empty bid for the error
+        }
+
+    }
+    bid = search->_bid;     // otherwise, set 'bid' to be equal to the bid in node 'search'
+    return bid;             // return the bid
 }
 
 /**
  * Returns the current size (number of elements) in the list
  */
 int LinkedList::Size() {
+    
+    Node* last = new Node();        // create a new Node called 'last'
+    last = this->_head;             // add 'head' into 'last'
+    if (last == NULL) {             // if 'head' is NULL, list is empty, return '0'
+        return 0;
+    }
+    else if (last->_next == NULL && last->_prev == NULL && last != NULL) {
+        return 1;                   // if head has no pointers but isn't null, list has 1 item, return '1'
+    }
+
+    int size = 1;                   // list isn't empty, has at least 1 item
+    while (last->_next != NULL) {   // otherwise, loop through the list
+        last = last->_next;         // start at the head ('last' Node) and keep checking for a
+        ++size;                     // increment size
+    }
+
     return size;
 }
 
@@ -183,6 +285,7 @@ void loadBids(string csvPath, LinkedList *list) {
 
             // add this bid to the end
             list->Append(bid);
+            //cout << bid.bidId << endl;
         }
     } catch (csv::Error &e) {
         std::cerr << e.what() << std::endl;
@@ -223,13 +326,13 @@ int main(int argc, char* argv[]) {
         break;
     default:
         csvPath = "eBid_Monthly_Sales_Dec_2016.csv";
-        bidKey = "98109";
+        bidKey = "98157";
     }
 
     clock_t ticks;
 
     LinkedList bidList;
-
+    
     Bid bid;
 
     int choice = 0;
