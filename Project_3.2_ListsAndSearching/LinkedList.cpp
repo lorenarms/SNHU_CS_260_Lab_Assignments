@@ -83,26 +83,34 @@ LinkedList::~LinkedList() {
  */
 void LinkedList::Append(Bid bid) {
     
-    Node* new_node = new Node();        // allocate a new Node
-    Node* last = this->_head;           // copy 'head' to new Node called 'last'
+    // allocate a new Node, copy head to 'last' Node
+    Node* app = new Node();        
+    Node* last = this->_head;
 
-    new_node->_bid = bid;               // add 'bid' to the new Node
-    new_node->_next = NULL;             // set the 'next' pointer to NULL (this node will be the last in the list)
+    // add bid to new Node 'app'
+    // set 'next' pointer to NULL bc it will be last in list
+    app->_bid = bid;
+    app->_next = NULL;
 
-    if (this->_head == NULL) {          // if the 'head' is empty, ie list is empty
-        new_node->_prev = NULL;         // set the new Node's 'prev' pointer to NULL
-        this->_head = new_node;         // make the new Node the head
-        return;                         // done now, return
+    // list is empty ie 'head' is empty
+    // new node becomes head, set 'prev' pointer to NULL
+    if (this->_head == NULL) {
+        app->_prev = NULL;
+        this->_head = app;
+        return;
     }
 
-    while (last->_next != NULL) {       // otherwise, loop through the list
-        last = last->_next;             // start at the head ('last' Node) and keep checking for a
-    }                                   // NULL value for the 'next' pointer at each Node
+    // loop through list, check for NULL value at 'next'
+    while (last->_next != NULL) {
+        last = last->_next;
+    }
 
-    last->_next = new_node;             // once the last Node is found, set its 'next' point to the new Node
-    new_node->_prev = last;             // set the new Node's prev pointer to the Node we just found
+    // set last Node to point to the new Node
+    // set the new Node 'prev' to point to (now former) last Node
+    last->_next = app;
+    app->_prev = last;
 
-    return;                             // done, return
+    return;
 
     // FIXME (3): Implement append logic
 }
@@ -111,14 +119,22 @@ void LinkedList::Append(Bid bid) {
  * Prepend a new bid to the start of the list
  */
 void LinkedList::Prepend(Bid bid) {
-    Node* new_node = new Node();            // allocate a new Node
-    new_node->_bid = bid;                   // add 'bid' to the new Node
-    new_node->_next = this->_head;          // set the 'next' pointer to point to the current head of the list
-    new_node->_prev = NULL;                 // set the 'prev' of the new Node to 'NULL' since it's at the front of the list
-    if (this->_head != NULL) {              // if the current head is not empty
-        this->_head->_prev = new_node;      // set it's prev pointer to point to the new Node, which is the new head
+    // allocate a new Node
+    Node* pre = new Node();            
+    
+    // add 'bid' to new Node, set 'next' pointer to head of list
+    // set 'prev' of new Node to 'NULL' bc it's the front
+    pre->_bid = bid;
+    pre->_next = this->_head;
+    pre->_prev = NULL;
+    
+    // if the current head is not empty
+    if (this->_head != NULL) { 
+        
+        // set the head 'prev' to the new Node
+        this->_head->_prev = pre;
     }
-    this->_head = new_node;                 // set the head of the list as the new node
+    this->_head = pre;
 
     // FIXME (4): Implement prepend logic
 }
@@ -129,27 +145,36 @@ void LinkedList::Prepend(Bid bid) {
 void LinkedList::PrintList() {
     // FIXME (5): Implement print logic
 
-    Node* print = new Node();        // create a new Node called 'print'
-    Bid bid;                         // create empty bid
-    int bidCount = 0;                // for displaying a number next to each bid
-    print = this->_head;             // add 'head' into 'last'
-    if (print == NULL) {             // if 'head' is NULL, list is empty, return
+    // create a Node called 'print' and an empty bid
+    // create an int for displaying numbers
+    Node* print = new Node();
+    Bid bid;
+    int bidCount = 0;
+    
+    // 'head' to 'print'
+    print = this->_head;
+
+    // if list is empty
+    if (print == NULL) {
         cout << "There are no bids to display / list is empty." << endl;
         return;
     }
 
-
-    while (print->_next != NULL) {          // otherwise, loop through the list
-        bid = print->_bid;                  // set 'bid' equal the bid in node 'print'
-        print = print->_next;               // increment 'print' to the next node
-        bidCount++;                         // increment bid count to display a number in front of each bid
-        cout << bidCount << ": " << bid.bidId << ": " << bid.title << " | " << bid.amount       // display the bid
+    // loop thru list check for NULL pointer in 'next'
+    while (print->_next != NULL) {
+        bid = print->_bid;
+        print = print->_next;
+        bidCount++;
+        // display the bid
+        cout << bidCount << ": " << bid.bidId << ": " << bid.title << " | " << bid.amount       
             << " | " << bid.fund << endl;
         
     }
+
+    // display the very last bid
     bidCount++;
     bid = print->_bid;
-    cout << bidCount << ": " << bid.bidId << ": " << bid.title << " | " << bid.amount       // display the very last bid
+    cout << bidCount << ": " << bid.bidId << ": " << bid.title << " | " << bid.amount       
         << " | " << bid.fund << endl;
 }
 
@@ -160,8 +185,43 @@ void LinkedList::PrintList() {
  */
 void LinkedList::Remove(string bidId) {
     // FIXME (6): Implement remove logic
+    
+    // create a new Node, point it to the head of the list
+    Node* del;
+    del = this->_head;
 
+    // list is empty, return
+    if (del == NULL) {
+        cout << "The list is empty, there is nothing to delete." << endl;
+        return;
+    }
+    
+    // search for the Node to be deleted
+    while (del->_bid.bidId != bidId) {
+        del = del->_next;
 
+        // if the next Node is NULL AND the bidId's don't match
+        if (del->_next == NULL && del->_bid.bidId != bidId) {       
+            cout << "BidID cannot be found; nothing was deleted." << endl;
+            return;
+        }
+    }
+
+    // if last node is not being deleted
+    // change the 'prev' of the 'next' Node to the 'prev' of the deleted Node
+    if (del->_next != NULL) {
+        del->_next->_prev = del->_prev;
+    }
+    
+    // if the first node is not being deleted
+    // change the 'next' of the 'prev' Node to the 'next' of the deleted Node
+    if (del->_prev != NULL) {
+        del->_prev->_next = del->_next;
+    }
+    delete del;
+    cout << "Bid " << bidId << " was successfully deleted from the list." << endl;
+
+    return;
 }
 
 /**
@@ -172,21 +232,29 @@ void LinkedList::Remove(string bidId) {
 Bid LinkedList::Search(string bidId) {
     // FIXME (7): Implement search logic
 
-    Node* search = new Node();              // create new Node called 'search'
-    Bid bid;                                 // create new empty Bid
-    search = this->_head;                    // set 'search' equal to 'head' of list
-    if (search == NULL) {                       // list is empty
-        return bid;                             // return empty bid
+    // create a Node call search, create an empty bid, set 'search' to 'head' of list
+    Node* search = new Node();
+    Bid bid;
+    search = this->_head;
+
+    // if list is empty, return empty bid
+    if (search == NULL) {
+        return bid;
     }
-    if (search->_bid.bidId == bidId) {      // head contains search
+
+    // 'head' Node is the search, return it
+    if (search->_bid.bidId == bidId) {
         bid = search->_bid;         
-        return bid;                 // return head bid
+        return bid;
     }
     
-    while (search->_bid.bidId != bidId) {                               // while the bid ID of search is not the same as the passed bidID
-        search = search->_next;                                          // set 'search' to the next Node
-        if (search->_next == NULL && search->_bid.bidId != bidId) {     // if the next Node is NULL AND the bidId's don't match
-            return bid;                                                  // return an empty bid for the error
+    // iterate through list looking for search ID
+    while (search->_bid.bidId != bidId) {
+        search = search->_next;
+        
+        // if the next Node is NULL AND the bidId's don't match
+        if (search->_next == NULL && search->_bid.bidId != bidId) {     
+            return bid;
         }
 
     }
