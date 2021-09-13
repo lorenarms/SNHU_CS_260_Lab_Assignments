@@ -100,7 +100,7 @@ void LinkedList::Append(Bid bid) {
         return;
     }
 
-    // loop through list, check for NULL value at 'next'
+    // iterate through list, check for NULL value at 'next'
     while (last->_next != NULL) {
         last = last->_next;
     }
@@ -135,6 +135,8 @@ void LinkedList::Prepend(Bid bid) {
         this->_head->_prev = pre;
     }
     this->_head = pre;
+
+
 
     // FIXME (4): Implement prepend logic
 }
