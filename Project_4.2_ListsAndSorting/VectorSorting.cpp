@@ -121,8 +121,47 @@ vector<Bid> loadBids(string csvPath) {
  * @param end Ending index to partition
  */
 int partition(vector<Bid>& bids, int begin, int end) {
+    // declare and set variables for use in loop
+    int low = begin;
+    int high = end;
+    int midpoint = begin + (end - begin) / 2;
+    Bid temp;
+    Bid pivot = bids.at(midpoint);
+    bool done = false;
 
-    return -1;
+    // loop until low and high are equal
+    while (!done) {
+
+        // if 'low' index bid is less than the pivot bid
+        // increment 'low'
+        while (bids.at(low).title < pivot.title) {
+            ++low;
+        }
+        // if pivot bid is less than the 'high' index bid
+        // decrement 'high'
+        while (pivot.title < bids.at(high).title) {
+            --high;
+        }
+        if (low >= high) {
+            done = true;
+        }
+
+        // bids passed to here will be unequal
+        // bid at the 'low' index will be higher than the pivot
+        // bid at the 'high' index will be lower than the pivot
+        // swap them
+        else {
+            temp = bids.at(low);
+            bids.at(low) = bids.at(high);
+            bids.at(high) = temp;
+
+            ++low;
+            --high;
+        }
+    }
+
+    // return the high index, which will be equal to the pivot index
+    return high;
 }
 
 /**
@@ -135,6 +174,25 @@ int partition(vector<Bid>& bids, int begin, int end) {
  * @param end the ending index to sort on
  */
 void quickSort(vector<Bid>& bids, int begin, int end) {
+    int j = 0;
+
+    // check if vector size is 0 or 1 / no sorting needed
+    if (begin >= end) {
+        return;
+    }
+
+    // partition the data within the vector at a pivot point
+    // low values / pivot / high values
+    j = partition(bids, begin, end);
+
+    //recursively sort the low partition (begin to j)
+    quickSort(bids, begin, j);
+
+    // recursively sort the high partition (j + 1 to end)
+    quickSort(bids, j + 1, end);
+
+    return;
+
 }
 
 // FIXME (1a): Implement the selection sort logic over bid.title
@@ -151,6 +209,11 @@ void selectionSort(vector<Bid>& bids) {
     
     // get the size of the bid vector, declare a temporary integer
     int size = bids.size();
+    if (size == 0 || size == 1) {
+        cout << "There is nothing to sort / list is empty or too small." << endl;
+        return;
+    }
+
     int temp;
 
     // loop through vector starting at 0
@@ -267,6 +330,22 @@ int main(int argc, char* argv[]) {
             break;
 
         // FIXME (2b): Invoke the quick sort and report timing results
+        case 4:
+            // initialize timer
+            ticks = clock();
+
+            
+            // call selection sort
+            quickSort(bids, 0, bids.size() - 1);
+
+            cout << bids.size() << " bids QuickSorted by title" << endl;
+
+            // calculate elapsed time, display result
+            ticks = clock() - ticks;
+            cout << "Time: " << ticks << " CPU clock ticks." << endl;
+            cout << "Time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds." << endl;
+
+            break;
 
         }
     }
