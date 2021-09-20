@@ -265,7 +265,7 @@ int main(int argc, char* argv[]) {
         csvPath = argv[1];
         break;
     default:
-        csvPath = "eBid_Monthly_Sales_Dec_2016.csv";
+        csvPath = "eBid_Monthly_Sales.csv";
     }
 
     // Define a vector to hold all the bids
