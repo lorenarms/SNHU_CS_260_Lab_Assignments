@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b6f11c5e-253f-4b84-9142-825b38668cca}</ProjectGuid>
-    <RootNamespace>Project52ListsAndHashing</RootNamespace>
+    <ProjectGuid>{cc086b6f-32fc-489e-b2d3-1537151d4edf}</ProjectGuid>
+    <RootNamespace>Project62BinarySearchTree</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,8 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BinarySearchTree.cpp" />
     <ClCompile Include="CSVparser.cpp" />
-    <ClCompile Include="HashTable.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="BinarySearchTree.txt" />
+    <Text Include="License.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CSVparser.hpp" />
@@ -148,11 +152,7 @@
   <ItemGroup>
     <None Include="eBid_Monthly_Sales.csv" />
     <None Include="eBid_Monthly_Sales_Dec_2016.csv" />
-    <None Include="Lab 5-2 Hash Table Assignment Details.docx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="HashTable.txt" />
-    <Text Include="License.txt" />
+    <None Include="Lab 6-2 Binary Search Tree Assignment Details.docx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

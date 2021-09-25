@@ -15,12 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BinarySearchTree.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="CSVparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HashTable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="BinarySearchTree.txt" />
+    <Text Include="License.txt" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CSVparser.hpp">
@@ -30,10 +34,6 @@
   <ItemGroup>
     <None Include="eBid_Monthly_Sales.csv" />
     <None Include="eBid_Monthly_Sales_Dec_2016.csv" />
-    <None Include="Lab 5-2 Hash Table Assignment Details.docx" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="HashTable.txt" />
-    <Text Include="License.txt" />
+    <None Include="Lab 6-2 Binary Search Tree Assignment Details.docx" />
   </ItemGroup>
 </Project>

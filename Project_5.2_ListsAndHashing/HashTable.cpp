@@ -126,8 +126,8 @@ void HashTable::PrintAll() {
     for (int i = 0; i < DEFAULT_SIZE; i++) {
         
         // at each index, iterate through list, print bid info
-        for (auto x : _bidTable[i]) {
-            cout << x.bidId << " " << x.title << " $" << x.amount;
+        for (auto bid : _bidTable[i]) {
+            cout << bid.bidId << " " << bid.title << " $" << bid.amount;
             cout << endl;
         }
     }
@@ -208,7 +208,7 @@ bool HashTable::IsEmpty(HashTable* hashTable) {
         for (i = _bidTable[index].begin(); i != _bidTable[index].end(); i++) {
             bid = *i;
             if (bid.bidId != "") {  //bid is not empty
-                bids++;             //iterate counter
+                bids++;             //increment counter
             }
         }
     }
