@@ -55,6 +55,7 @@ private:
     void addNode(Node* node, Bid bid);
     void inOrder(Node* node);
     void removeNode(Node* node, string bidId);
+    void deleteTree(Node* node);        // method to delete all nodes
 
 public:
     BinarySearchTree();
@@ -81,7 +82,21 @@ BinarySearchTree::BinarySearchTree() {
  */
 BinarySearchTree::~BinarySearchTree() {
     // recurse from root deleting every node
-    delete root;
+    deleteTree(this->root); // call private method to delete all nodes
+    return;
+}
+
+// this method recursively deletes each node in the tree
+void BinarySearchTree::deleteTree(Node* node) {
+    if (node == NULL) {
+        return;
+    }
+
+    deleteTree(node->left);
+    deleteTree(node->right);
+
+    delete node;
+    node = NULL;
 }
 
 /**
@@ -92,6 +107,10 @@ void BinarySearchTree::InOrder() {
         cout << "This tree is empty, try filling it with some bids!" << endl;
         return;
     }
+
+    // call private method to print out the tree in order
+    // this method is simple because the tree is already in order
+
     inOrder(this->root);
     return;
 }
@@ -106,22 +125,33 @@ void BinarySearchTree::Insert(Bid bid) {
     toAdd->bid = bid;
     toAdd->left = toAdd->right = NULL;
 
+    // this algorithm is the same as the Add() method
+    // both methods add bids to the tree in the correct order
+    // actual insertion would require tree rearanging
+
+    // tree is empty, make this first node the root
     if (this->root == NULL) {
         this->root = toAdd;
         return;
     }
+
+    //tree is not empty, add to root
     else {
         curr = this->root;
         while (curr != NULL) {
+            // check which direction to add to
             if (toAdd->bid.bidId < curr->bid.bidId) {
                 if (curr->left == NULL) {
                     curr->left = toAdd;
                     return;
                 }
+                // left node is not empty
+                // make left node current node, loop again
                 else {
                     curr = curr->left;
                 }
             }
+            // same as above, but with right
             else {
                 if (curr->right == NULL) {
                     curr->right = toAdd;
@@ -141,15 +171,17 @@ void BinarySearchTree::Insert(Bid bid) {
  */
 void BinarySearchTree::Remove(string bidId) {
     // FIXME (4a) Implement removing a bid from the tree
-    removeNode(root, bidId);
+    removeNode(root, bidId);    // call to private remove method
     return;
 }
 
 void BinarySearchTree::removeNode(Node* node, string bidId) {
     Node* parent = NULL;
 
+    // recursively searches for the desired bidId to delete
     while (node != NULL) {
         if (node->bid.bidId == bidId) {
+            // node is a leaf
             if (!node->left && !node->right) {
                 if (!parent) {
                     this->root = NULL;
@@ -160,6 +192,7 @@ void BinarySearchTree::removeNode(Node* node, string bidId) {
                 else
                     parent->right = NULL;
             }
+            // node has left child, no right child
             else if (node->left && !node->right) {
                 if (!parent) {
                     this->root = node->left;
@@ -170,6 +203,7 @@ void BinarySearchTree::removeNode(Node* node, string bidId) {
                 else
                     parent->right = node->left;
             }
+            // node has right child, no left child
             else if (!node->left && node->right) {
                 if (!parent) {
                     this->root = node->right;
@@ -180,6 +214,10 @@ void BinarySearchTree::removeNode(Node* node, string bidId) {
                 else
                     parent->right = node->right;
             }
+            // node has two children
+            // must be replaced with another node
+            // this algorithm rinds the leftmost node of rightmost sub
+            // replaces node to be deleted
             else {
                 Node* succ = NULL;
                 succ = node->right;
@@ -188,10 +226,14 @@ void BinarySearchTree::removeNode(Node* node, string bidId) {
                     succ = succ->left;
                 }
                 node->bid = succ->bid;
+                // recursively search for old leaf node and delete it
+                // starting at the current node that was just replaced
                 removeNode(node->right, succ->bid.bidId);
             }
             return;
         }
+        // bid not found yet, set new parent and current
+        // loop again
         else if (node->bid.bidId < bidId) {
             parent = node;
             node = node->right;
@@ -212,20 +254,25 @@ Bid BinarySearchTree::Search(string bidId) {
     Node* parent = NULL;
     Node* node = root;
     
+    // search for the desired bidId while the node is not NULL
+    // uses same algorithm as "delete"
     while (node != NULL) {
+        // bid has been found
         if (node->bid.bidId == bidId) {
             return node->bid;
         }
+        // bid is more, go right
         else if (node->bid.bidId < bidId) {
             parent = node;
             node = node->right;
         }
+        // bid is less, go left
         else {
             parent = node;
             node = node->left;
         }
     }
-
+    // bid not found, make empty bid to return
 	Bid bid;
     return bid;
 }
@@ -244,14 +291,19 @@ void BinarySearchTree::addNode(Node* node, Bid bid) {
 
     toAdd->bid = bid;
     
+    // this algorithm adds nodes in order of bidId
+    // this is not the most efficient for tree height, however
+    // this does not require sorting afterwards
 
     if (this->root == NULL) {
-        this->root = toAdd;
+        this->root = toAdd;     // make this bid the tree root (tree is empty)
         return;
     }
     else {
+        // tree is not empty, loop until an empty node is found
         curr = this->root;
         while (curr != NULL) {
+            // search left
             if (toAdd->bid.bidId < curr->bid.bidId) {
                 if (curr->left == NULL) {
                     curr->left = toAdd;
@@ -261,6 +313,7 @@ void BinarySearchTree::addNode(Node* node, Bid bid) {
                     curr = curr->left;
                 }
             }
+            // search right
             else {
                 if (curr->right == NULL) {
                     curr->right = toAdd;
@@ -273,12 +326,16 @@ void BinarySearchTree::addNode(Node* node, Bid bid) {
         }
     }
 }
+
+
 void BinarySearchTree::inOrder(Node* node) {
     if (node == NULL) {
         return;
     }
+
+    // recursive call to inOrder to keep loading nodes until the last one is reached
+    // then start printing nodes, working upwards 
     inOrder(node->left);
-    //cout << node->bid.bidId << " " << node->bid.title << " $" << node->bid.amount << endl;
     Bid bid = node->bid;
     displayBid(bid);
     inOrder(node->right);
@@ -437,6 +494,13 @@ int main(int argc, char* argv[]) {
         case 4:
             bst->Remove(bidKey);
             break;
+        
+        // secret method to test tree deletion
+        case 5:
+            bst->~BinarySearchTree();
+
+            //create a new tree when old one is deleted
+            bst = new BinarySearchTree();
         }
     }
 
