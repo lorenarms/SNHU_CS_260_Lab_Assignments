@@ -251,7 +251,6 @@ void BinarySearchTree::removeNode(Node* node, string bidId) {
  */
 Bid BinarySearchTree::Search(string bidId) {
     // FIXME (3) Implement searching the tree for a bid
-    Node* parent = NULL;
     Node* node = root;
     
     // search for the desired bidId while the node is not NULL
@@ -263,12 +262,10 @@ Bid BinarySearchTree::Search(string bidId) {
         }
         // bid is more, go right
         else if (node->bid.bidId < bidId) {
-            parent = node;
             node = node->right;
         }
         // bid is less, go left
         else {
-            parent = node;
             node = node->left;
         }
     }
