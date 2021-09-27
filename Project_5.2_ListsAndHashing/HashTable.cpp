@@ -312,6 +312,7 @@ int main(int argc, char* argv[]) {
 
     // process command line arguments
     string csvPath, bidKey;
+    int bidKeyAsInt;
     switch (argc) {
     case 2:
         csvPath = argv[1];
@@ -332,6 +333,7 @@ int main(int argc, char* argv[]) {
     // Define a hash table to hold all the bids
     HashTable* bidTable;
     bidTable = new HashTable();
+    
 
     Bid bid;
 
@@ -368,6 +370,21 @@ int main(int argc, char* argv[]) {
             break;
 
         case 3:
+            // prompt user for bidKey to search for
+            // check that input is an integer
+            // convert to string for method call
+            cout << "Enter a bidID to search for: ";
+            cout << "Enter a number: ";
+            cin >> bidKeyAsInt;
+            while (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(),'\n');
+                cout << "Bad entry. Enter a NUMBER: ";
+                cin >> bidKeyAsInt;
+            }
+
+            bidKey = to_string(bidKeyAsInt);
+
             ticks = clock();
 
             bid = bidTable->Search(bidKey);
@@ -385,6 +402,17 @@ int main(int argc, char* argv[]) {
             break;
 
         case 4:
+            cout << "Enter a bidID to search for: ";
+            cout << "Enter a number: ";
+            cin >> bidKeyAsInt;
+            while (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Bad entry. Enter a NUMBER: ";
+                cin >> bidKeyAsInt;
+            }
+
+            bidKey = to_string(bidKeyAsInt);
             bidTable->Remove(bidKey);
             break;
         }
