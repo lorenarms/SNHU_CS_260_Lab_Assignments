@@ -139,21 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AppMenus.cpp" />
     <ClCompile Include="CSVparser.cpp" />
     <ClCompile Include="Driver.cpp" />
-    <ClCompile Include="GenericMenuExample.cpp" />
     <ClCompile Include="HashTable.cpp" />
     <ClCompile Include="MenuDriver.cpp" />
-    <ClCompile Include="Sorter.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AppMenus.h" />
     <ClInclude Include="Bid.h" />
     <ClInclude Include="CSVparser.hpp" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="MenuDriver.h" />
-    <ClInclude Include="Sorter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="eBid_Monthly_Sales.csv" />

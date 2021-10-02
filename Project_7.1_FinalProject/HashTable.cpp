@@ -1,3 +1,7 @@
+//============================================================================
+// Hash Table class definition
+//============================================================================
+
 #include <string>
 #include <list>
 #include <iostream>
@@ -7,26 +11,14 @@
 
 using namespace std;
 
-//============================================================================
-// Hash Table class definition
-//============================================================================
-
-/**
- * Define a class containing data members and methods to
- * implement a hash table with chaining.
- */
-
-
-
-
 
 /**
  * Default constructor
  */
 HashTable::HashTable(int size) {
-    // FIXME (2): Initialize the structures used to hold bids
-
+    
     // set the list to the deafault size
+    // size passed after reading rows from file
     DEFAULT_SIZE = size;
     _bidTable = new list<Bid>[DEFAULT_SIZE];
 }
@@ -35,8 +27,7 @@ HashTable::HashTable(int size) {
  * Destructor
  */
 HashTable::~HashTable() {
-    // FIXME (3): Implement logic to free storage when class is destroyed
-
+    
     // destructor
     delete _bidTable;
 }
@@ -51,8 +42,6 @@ HashTable::~HashTable() {
  * @return The calculated hash
  */
 unsigned int HashTable::hash(int key) {
-    // FIXME (4): Implement logic to calculate a hash value
-
     // key will be bidId % size-of-list
     return key % DEFAULT_SIZE;
 }
@@ -63,22 +52,18 @@ unsigned int HashTable::hash(int key) {
  * @param bid The bid to insert
  */
 void HashTable::Insert(Bid bid) {
-    // FIXME (5): Implement logic to insert a bid
-
     // convert bidId string to int, hash the key
     // at key index, add bid
     int index = hash(stoi(bid.bidId));
     _bidTable[index].push_back(bid);
-    cin.clear();
+    
 }
 
 /**
  * Print all bids
  */
 void HashTable::PrintAll() {
-    // FIXME (6): Implement logic to print all bids
-
-    // iterate through list one index at a time
+   // iterate through list one index at a time
     for (int i = 0; i < DEFAULT_SIZE; i++) {
 
         // at each index, iterate through list, print bid info
@@ -87,7 +72,6 @@ void HashTable::PrintAll() {
             cout << endl;
         }
     }
-    cin.clear();
 }
 
 /**
@@ -96,8 +80,7 @@ void HashTable::PrintAll() {
  * @param bidId The bid id to search for
  */
 void HashTable::Remove(string bidId) {
-    // FIXME (7): Implement logic to remove a bid
-
+   
     // get key from bidId, create iterator for list at index
     int index = hash(stoi(bidId));
     list <Bid> ::iterator i;
@@ -127,8 +110,7 @@ void HashTable::Remove(string bidId) {
  * @param bidId The bid id to search for
  */
 Bid HashTable::Search(string bidId) {
-    // FIXME (8): Implement logic to search for and return a bid
-
+    
     // vars
     Bid bid;
     Bid emptyBid;

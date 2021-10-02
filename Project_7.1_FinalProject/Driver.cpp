@@ -19,7 +19,6 @@
 #include "HashTable.h"
 #include "Bid.h"
 #include "MenuDriver.h"
-#include "Sorter.h"
 #include "CSVparser.hpp"
 
 using namespace std;
@@ -32,19 +31,15 @@ using namespace std;
 
 // forward declarations
 double strToDouble(string str, char ch);
-int MainMenu(MenuDriver mainMenu, MenuDriver newCursor);
+//int MainMenu(MenuDriver mainMenu, MenuDriver newCursor);
 void FunctionToLoadBids(string csvPath, HashTable* bidTable, MenuDriver newMenu);
 void FunctionToSearchForBids(MenuDriver newMenu, HashTable* bidTable);
+void FunctionToRemoveBid(MenuDriver newMenu, HashTable* bidTable);
 void BannerConstructor(string banner[]);
-
-// define a structure to hold bid information
-
-
-
 
 
 //============================================================================
-// Static methods used for testing
+// Methods for handling bids
 //============================================================================
 
 /**
@@ -71,6 +66,8 @@ void loadBids(string csvPath, HashTable* hashTable) {
 
     if (!hashTable->IsEmpty(hashTable)) {
         
+        // Check if the hashtable is empty so the user doesn't
+        // double up bids in the list
         shortMenu.SetRow(11);
         vector <string> menu = { "yes", "no " };
         int m = shortMenu.MenuModifier(menu);
@@ -91,11 +88,8 @@ void loadBids(string csvPath, HashTable* hashTable) {
             }
         }
 
-        //cin >> choice;
-        
-
     }
-
+    
     cout << "Loading CSV file " << csvPath << endl;
 
     // initialize the CSV Parser using the given path
@@ -103,15 +97,7 @@ void loadBids(string csvPath, HashTable* hashTable) {
     int rows = file.rowCount();
     hashTable->DEFAULT_SIZE = rows;
     
-    // read and display header row - optional
-    /*vector<string> header = file.getHeader();
-    for (auto const& c : header) {
-        cout << c << " | ";
-    }
-    cout << "" << endl;*/
-
-
-
+   
     try {
         // loop to read rows of a CSV file
         for (unsigned int i = 0; i < file.rowCount(); i++) {
@@ -123,8 +109,7 @@ void loadBids(string csvPath, HashTable* hashTable) {
             bid.fund = file[i][8];
             bid.amount = strToDouble(file[i][4], '$');
 
-            //cout << "Item: " << bid.title << ", Fund: " << bid.fund << ", Amount: " << bid.amount << endl;
-
+            
             // push this bid to the end
             hashTable->Insert(bid);
         }
@@ -133,7 +118,6 @@ void loadBids(string csvPath, HashTable* hashTable) {
         std::cerr << e.what() << std::endl;
     }
 
-    
 }
 
 /**
@@ -171,11 +155,13 @@ int main(int argc, char* argv[]) {
         bidKey = "98109";
     }
 
-    
+    // Determine the amount of table spaces needed
+    // open the file and read the number of rows
     csv::Parser file = csv::Parser(csvPath);
     int rows = file.rowCount();
     file.~Parser();
 
+    // Create objects for use in main menu
     Bid bid;
     clock_t ticks;
     MenuDriver newMenu;
@@ -183,26 +169,32 @@ int main(int argc, char* argv[]) {
     HashTable* bidTable;
     string banner[3];
     
+    // Create the hash table with the correct number of rows
     bidTable = new HashTable(rows);
     
+    // Create the banner for the main page
+    // Find the banner width and modify for centering 
     BannerConstructor(banner);
     int bannerWidth = banner[0].length();
     bannerWidth /= 2;
     
+    // Create primatives for use in main menu
     int bidKeyAsInt;
     int choice = 0;
     int selection = 0;
     bool run = true;
 
+    // Main menu options
     vector <string> menu = { "Load Bids", "Display All Bids", "Find Bid" , "Remove Bid", "Exit" };
     
+    // vars for menu centering
     int m = newMenu.MenuModifier(menu);
     int windowWidth = newCursor.GetWindowWidth();		//center's menu
     int menuDrawCol = windowWidth / 2;
     menuDrawCol -= (m / 2);
     newCursor.HideCursorBlink();
     
-
+    // Main menu
     while (run) {
         // Draw the headline
         newMenu.SetColor(12);
@@ -210,20 +202,24 @@ int main(int argc, char* argv[]) {
             newMenu.SetNewCursor(i, (windowWidth / 2) - bannerWidth);
             cout << banner[i];
         }
+
+        // Set menu position and color, draw it
         newMenu.SetColor(15);
         newMenu.SetRow(5);
         newMenu.RunMenu(menu, selection, menuDrawCol);
         
+        // Clear the cin cache, keeps '\n' from affecting output
         cin.sync();
         while (_kbhit()) _getch();
         
+        // Options for main menu
         switch (selection) {
+        
         case 1:
             FunctionToLoadBids(csvPath, bidTable, newMenu);
-            
             break;
+
         case 2:
-            
             system("cls");
             bidTable->PrintAll();
             newMenu.SetColor(14);
@@ -234,73 +230,35 @@ int main(int argc, char* argv[]) {
 
             }
             system("cls");
-
             cin.clear();
             cin.ignore();
-            //cin.ignore(numeric_limits<streamsize>::max(), '\n');
             break;
+        
         case 3:
             FunctionToSearchForBids(newMenu, bidTable);
             selection = 3;
             break;
+        
         case 4:
-            
-            newMenu.SetNewCursor(12, 0);
-            cout << "Enter a bidID to search for; enter a number: ";
-            bidKeyAsInt;
-            cin >> bidKeyAsInt;
-            while (cin.fail()) {
-                cin.clear();    cin.ignore(INT_MAX, '\n');
-                cout << "\nBad entry. Enter a NUMBER: ";
-                cin >> bidKeyAsInt;
-            }
-
-
-
-            bidKey = to_string(bidKeyAsInt);
-
-            if (!bid.bidId.empty()) {
-                displayBid(bid);
-                cin.clear();    cin.ignore(INT_MAX, '\n');
-            }
-            else {
-                cout << "Bid Id " << bidKey << " not found." << endl;
-                cin.clear();    cin.ignore(INT_MAX, '\n');
-            }
-
-
-            bidTable->Remove(bidKey);
-            cin.clear();
-            newMenu.SetColor(14);
-            cout << "PRESS ENTER TO CLEAR AND CONTINUE..." << endl;
-            newMenu.SetColor(15);
-            cin.clear();
-            cin.ignore(INT_MAX, '\n');
-            while (newMenu.CheckKeyPress() != 2) {
-
-            }
-            system("cls");
-            cin.clear();
+            FunctionToRemoveBid(newMenu, bidTable);
             selection = 4;
-            
             break;
+        
         case 5:
             run = false;
             break;
         default:
-
             break;
         }
-        
-        cin.clear();
     }
    
-
     cout << "Good bye." << endl;
-
     return 0;
 }
 
+//
+// Insert a bid function
+//
 void FunctionToLoadBids(string csvPath, HashTable* bidTable, MenuDriver newMenu) {
     // Initialize a timer variable before loading bids
     clock_t ticks = clock();
@@ -312,17 +270,19 @@ void FunctionToLoadBids(string csvPath, HashTable* bidTable, MenuDriver newMenu)
     ticks = clock() - ticks; // current clock ticks minus starting clock ticks
     cout << "time: " << ticks << " clock ticks" << endl;
     cout << "time: " << ticks * 1.0 / CLOCKS_PER_SEC << " seconds" << endl;
+    
+    // Pause and wait for 'enter' from user
     newMenu.SetColor(14);
     cout << "PRESS ENTER TO CLEAR AND CONTINUE..." << endl;
     newMenu.SetColor(15);
-    
-    while (newMenu.CheckKeyPress() != 2) {
-
-    }
+    while (newMenu.CheckKeyPress() != 2) {  }
     system("cls");
     return;
 }
 
+//
+// Search for a bid function
+//
 void FunctionToSearchForBids(MenuDriver newMenu, HashTable* bidTable) {
     newMenu.SetNewCursor(12, 0);
     cout << "Enter a bidID to search for; enter a number: ";
@@ -333,11 +293,8 @@ void FunctionToSearchForBids(MenuDriver newMenu, HashTable* bidTable) {
         cout << "\nBad entry. Enter a NUMBER: ";
         cin >> bidKeyAsInt;
     }
-
     string bidKey = to_string(bidKeyAsInt);
-
     clock_t ticks = clock();
-
     Bid bid = bidTable->Search(bidKey);
 
     ticks = clock() - ticks; // current clock ticks minus starting clock ticks
@@ -358,20 +315,57 @@ void FunctionToSearchForBids(MenuDriver newMenu, HashTable* bidTable) {
     newMenu.SetColor(15);
     cin.clear();
     cin.ignore(INT_MAX, '\n');
-    while (newMenu.CheckKeyPress() != 2) {
-
-    }
+    while (newMenu.CheckKeyPress() != 2) {    }
     system("cls");
     
 }
 
+//
+// Remove bid function
+//
+void FunctionToRemoveBid(MenuDriver newMenu, HashTable* bidTable) {
+    newMenu.SetNewCursor(12, 0);
+    cout << "Enter a bidID to search for; enter a number: ";
+    int bidKeyAsInt;
+    cin >> bidKeyAsInt;
+    while (cin.fail()) {
+        cin.clear();    cin.ignore(INT_MAX, '\n');
+        cout << "\nBad entry. Enter a NUMBER: ";
+        cin >> bidKeyAsInt;
+    }
+
+    Bid bid;
+    string bidKey = to_string(bidKeyAsInt);
+
+    if (!bid.bidId.empty()) {
+        displayBid(bid);
+        cin.clear();    cin.ignore(INT_MAX, '\n');
+    }
+    else {
+        cout << "Bid Id " << bidKey << " not found." << endl;
+        cin.clear();    cin.ignore(INT_MAX, '\n');
+    }
+
+    bidTable->Remove(bidKey);
+    cin.clear();
+    newMenu.SetColor(14);
+    cout << "PRESS ENTER TO CLEAR AND CONTINUE..." << endl;
+    newMenu.SetColor(15);
+    cin.clear();
+    cin.ignore(INT_MAX, '\n');
+    while (newMenu.CheckKeyPress() != 2) {    }
+    system("cls");
+    cin.clear();
+}
+
+//
+// Banner function
+//
 void BannerConstructor(string banner[]) {
     
     banner[0] = "____ ___  _ ___     _  _ ____ _  _ ___ _  _ _    _   _    ____ ____ _    ____ ____ ";
     banner[1] = "|___ |__] | |  \\    |\\/| |  | |\\ |  |  |__| |     \\_/     [__  |__| |    |___ [__  ";
     banner[2] = "|___ |__] | |__/    |  | |__| | \\|  |  |  | |___   |      ___] |  | |___ |___ ___] ";
- 
-
 }
 
 

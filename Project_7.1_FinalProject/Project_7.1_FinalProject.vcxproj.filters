@@ -21,15 +21,6 @@
     <ClCompile Include="CSVparser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Sorter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AppMenus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GenericMenuExample.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MenuDriver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -41,13 +32,7 @@
     <ClInclude Include="CSVparser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AppMenus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MenuDriver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sorter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HashTable.h">
