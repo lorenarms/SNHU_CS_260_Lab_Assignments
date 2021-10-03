@@ -15,12 +15,17 @@ using namespace std;
 /**
  * Default constructor
  */
+
+
+
+
 HashTable::HashTable(int size) {
     
     // set the list to the deafault size
     // size passed after reading rows from file
     DEFAULT_SIZE = size;
     _bidTable = new list<Bid>[DEFAULT_SIZE];
+    return;
 }
 
 /**
@@ -29,7 +34,8 @@ HashTable::HashTable(int size) {
 HashTable::~HashTable() {
     
     // destructor
-    delete _bidTable;
+    //delete _bidTable;
+    _bidTable = NULL;
 }
 
 /**

@@ -15,6 +15,10 @@
 
 using namespace std;
 
+//
+//	row value is where the menu starts getting drawn from the top of the window
+//  set this at menu object creation, row can be changed to move menu 
+//
 void MenuDriver::SetRow(int row) {
 	this->row = row;
 }
@@ -51,10 +55,10 @@ int MenuDriver::CheckKeyPress() {
 //
 void MenuDriver::DrawMenu(vector<string> menu, int selection, int columnToDraw) {
 	//use these to change the menu colors
-	int selected = 240;
-	int unselected = 15;
+	int selected = 240;		// 240 is highlight white on black letters
+	int unselected = 15;	// 15 is default white text
 	for (int i = 0; i < menu.size(); i++) {
-		SetNewCursor(i + row, columnToDraw);
+		SetNewCursor(i + row, columnToDraw);		
 		SetColor(unselected);
 		if (i == selection - 1) {
 			SetColor(selected);
@@ -150,7 +154,7 @@ int MenuDriver::MenuModifier(vector<string>& menu) {
 		}
 	}
 	maximum += 10;				// modify this value to change how wide the menu will be
-							// value is amount of spaces added to each side of longest item
+								// value is amount of spaces added to each side of longest item
 	for (int i = 0; i < menu.size(); i++) {
 		if (menu.at(i).length() % 2 != 0) {			// if the menu item is not an even number of characters, add one space at the end
 													// to make it divisible by 2
@@ -171,7 +175,7 @@ int MenuDriver::MenuModifier(vector<string>& menu) {
 		}
 	}
 
-	return maximum;
+	return maximum;		// return the maximum width of the longest menu item so that the menu can be drawn centered in the console window
 }
 
 //
@@ -200,7 +204,8 @@ int MenuDriver::GetWindowWidth() {
 }
 
 //
-// changes the color of whatever is called
+// changes the color of the console text
+// 15 is default white color
 //
 void MenuDriver::SetColor(int color) {
 	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);

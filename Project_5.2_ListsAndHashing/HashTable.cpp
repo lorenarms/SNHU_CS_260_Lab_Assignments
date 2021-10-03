@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <climits>
 #include <iostream>
-#include <string> // atoi
+#include <string> // stoi
 #include <time.h>
 #include <list>
 #include <iterator>

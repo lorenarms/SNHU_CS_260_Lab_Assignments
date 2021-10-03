@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Bid.h"
+#include <cstddef>
 
 using namespace std;
 
@@ -9,7 +10,7 @@ class HashTable {
 private:
     
     list<Bid>* _bidTable;
-
+    
     unsigned int hash(int key);
 
 public:
