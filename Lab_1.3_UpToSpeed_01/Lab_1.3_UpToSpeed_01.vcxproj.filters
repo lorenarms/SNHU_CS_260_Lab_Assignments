@@ -19,4 +19,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 1\CS 260 Up-to-Speed Activity Guidelines and Rubric.pdf" />
+  </ItemGroup>
 </Project>

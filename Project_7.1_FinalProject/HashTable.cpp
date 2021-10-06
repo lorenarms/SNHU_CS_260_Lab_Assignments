@@ -124,7 +124,8 @@ Bid HashTable::Search(string bidId) {
 
     // iterator for list at index
     list <Bid> ::iterator i;
-    for (i = _bidTable[index].begin(); i != _bidTable[index].end(); i++) {
+    for (i = _bidTable[index].begin(); i != 
+        _bidTable[index].end(); i++) {
         bid = *i;
         if (bid.bidId == bidId) {   //match found
             return bid;

@@ -45,5 +45,7 @@
   <ItemGroup>
     <None Include="eBid_Monthly_Sales.csv" />
     <None Include="eBid_Monthly_Sales_Dec_2016.csv" />
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 7\CS 260 Final Project Guidelines and Rubric.pdf" />
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 7\Final Project Final Draft.docx" />
   </ItemGroup>
 </Project>

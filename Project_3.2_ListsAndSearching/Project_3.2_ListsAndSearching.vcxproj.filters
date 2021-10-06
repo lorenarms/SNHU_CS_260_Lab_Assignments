@@ -31,6 +31,8 @@
     <None Include="eBid_Monthly_Sales.csv" />
     <None Include="eBid_Monthly_Sales_Dec_2016.csv" />
     <None Include="Lab 3-2 Linked List Requirement Details.docx" />
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 3\3-2 Code Reflection and Flowchart.docx" />
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 3\CS 260 Programming Activity Guidelines and Rubric.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

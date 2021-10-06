@@ -210,18 +210,21 @@ void LinkedList::Remove(string bidId) {
     }
 
     // if last node is not being deleted
-    // change the 'prev' of the 'next' Node to the 'prev' of the deleted Node
+    // change the 'prev' of the 'next' Node
+	// to the 'prev' of the deleted Node
     if (del->_next != NULL) {
         del->_next->_prev = del->_prev;
     }
     
     // if the first node is not being deleted
-    // change the 'next' of the 'prev' Node to the 'next' of the deleted Node
+    // change the 'next' of the 'prev' Node to
+	// the 'next' of the deleted Node
     if (del->_prev != NULL) {
         del->_prev->_next = del->_next;
     }
     delete del;
-    cout << "Bid " << bidId << " was successfully deleted from the list." << endl;
+    cout << "Bid " << bidId << " was successfully " <<
+		"deleted from the list." << endl;
 
     return;
 }

@@ -141,6 +141,9 @@
   <ItemGroup>
     <ClCompile Include="Lab1-3.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 1\CS 260 Up-to-Speed Activity Guidelines and Rubric.pdf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

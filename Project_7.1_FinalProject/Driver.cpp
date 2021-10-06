@@ -204,7 +204,7 @@ int main(int argc, char* argv[]) {
     // Main menu
     while (run) {
         // Draw the headline
-        newMenu.SetColor(12);
+        newMenu.SetColor(9);
         for (int i = 0; i < 3; i++) {
             newMenu.SetNewCursor(i, (windowWidth / 2) - bannerWidth);
             cout << banner[i];

@@ -150,6 +150,8 @@
     <ClInclude Include="CSVparser.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 6\6-2 Programming Activity Reflection.docx" />
+    <None Include="..\..\..\..\Google Drive\My College Classes\CS-260 Data Structures and Algorithms\Module 6\CS 260 Programming Activity Guidelines and Rubric.pdf" />
     <None Include="eBid_Monthly_Sales.csv" />
     <None Include="eBid_Monthly_Sales_Dec_2016.csv" />
     <None Include="Lab 6-2 Binary Search Tree Assignment Details.docx" />
