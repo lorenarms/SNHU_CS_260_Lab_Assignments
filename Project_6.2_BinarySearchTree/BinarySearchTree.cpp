@@ -64,7 +64,10 @@ public:
     void Insert(Bid bid);
     void Remove(string bidId);
     Bid Search(string bidId);
+    Node* find(int v);
 };
+
+
 
 void displayBid(Bid bid);   //forward declaration
 
@@ -74,6 +77,8 @@ void displayBid(Bid bid);   //forward declaration
 BinarySearchTree::BinarySearchTree() {
     // initialize housekeeping variables
     this->root = NULL;
+    Node* node = NULL;
+	
 
 }
 
